@@ -7,7 +7,7 @@ var pinTemplate = document.querySelector('#pin');
 var pinButton = pinTemplate.content.querySelector('.map__pin');
 
 var SCREEN_WIDTH = mapForPin.clientWidth;
-var objectsForRent = [{}, {}, {}, {}, {}, {}, {}, {}];
+var objectsForRent = [];
 
 /*  Create random number (min, max) */
 var createNumber = function (minNumber, maxNumber) {
@@ -32,7 +32,7 @@ var createObjectForRent = function (i) {
 
 /*  Generate array of objects */
 for (var index = 0; index < 8; index++) {
-  objectsForRent[index] = createObjectForRent(index);
+  objectsForRent.push(createObjectForRent(index));
 }
 
 /*  Delete class  */
