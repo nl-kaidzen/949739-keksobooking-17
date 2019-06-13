@@ -39,20 +39,20 @@ for (var index = 0; index < 8; index++) {
 mapForPin.classList.remove('map--faded');
 
 /*  Clone Pin-Element*/
-var addPinToMap = function () {
+var addPinToMap = function (newPinElement) {
   containerForPin.appendChild(newPinElement);
 };
 
 /*  Change Object Data at created pin */
-var changePinData = function (i) {
-  newPinElement.style = 'left: ' + (objectsForRent[i].location.x - newPinElement.clientWidth / 2) + 'px; top: ' + (objectsForRent[i].location.y - newPinElement.clientHeight) + 'px;';
-  newPinElement.children[0].src = objectsForRent[i].author.avatar;/* Method .children could be replaced to .querySelector()  */
+var changePinData = function (objectForRentData) {
+  newPinElement.style = 'left: ' + (objectForRentData.location.x - newPinElement.clientWidth / 2) + 'px; top: ' + (objectForRentData.location.y - newPinElement.clientHeight) + 'px;';
+  newPinElement.children[0].src = objectForRentData.author.avatar;/* Method .children could be replaced to .querySelector()  */
   newPinElement.children[0].alt = 'Здесь будет текст объявления';
 };
 
 /*  Paint new Pins to Map*/
-for (var i = 0; i < 8; i++) {
+for (var i = 0; i < objectsForRent.length; i++) {
   var newPinElement = pinButton.cloneNode(true);
-  addPinToMap();
-  changePinData(i);
+  addPinToMap(newPinElement);
+  changePinData(objectsForRent[i]);
 }
