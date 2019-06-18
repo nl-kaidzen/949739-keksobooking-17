@@ -12,9 +12,12 @@ var objectsForRent = [];
 /*  Search for MainPin  */
 var mainPin = document.querySelector('.map__pin--main');
 
-/*  Serch for fielsets  */
+/*  Serch for fieldsets and selects for changeState */
 var fieldsetsArray = document.querySelectorAll('fieldset');
 var mapFiltersArray = document.querySelectorAll('select[class=map__filter]');
+
+/*  Search for ad-form to changeState */
+var adForm = document.querySelector('.ad-form');
 
 /*  Create random number (min, max) */
 var createNumber = function (minNumber, maxNumber) {
@@ -81,5 +84,6 @@ mainPin.addEventListener('mouseup', function () {
   mapForPin.classList.remove('map--faded');
   changeNoticeState(fieldsetsArray, false);
   changeNoticeState(mapFiltersArray, false);
+  adForm.classList.remove('ad-form--disabled');
   paintPin();
 });
