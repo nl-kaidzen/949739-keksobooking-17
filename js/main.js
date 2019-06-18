@@ -11,10 +11,10 @@ var objectsForRent = [];
 
 /*  Search for MainPin  */
 var mainPin = document.querySelector('.map__pin--main');
-/*  Search for ad section (notice) */
-var notice = document.querySelector('.notice');
+
 /*  Serch for fielsets  */
-var fieldsetsArray = notice.querySelectorAll('fieldset');
+var fieldsetsArray = document.querySelectorAll('fieldset');
+var mapFiltersArray = document.querySelectorAll('select[class=map__filter]');
 
 /*  Create random number (min, max) */
 var createNumber = function (minNumber, maxNumber) {
@@ -42,9 +42,6 @@ for (var index = 0; index < 8; index++) {
   objectsForRent.push(createObjectForRent(index));
 }
 
-/*  Delete class  */
-/*  mapForPin.classList.remove('map--faded'); */
-
 /*  Paint new Pins to Map*/
 
 var paintPin = function () {
@@ -69,18 +66,20 @@ var changePinData = function (newPinElement, objectForRentData) {
 
 
 /*  Disable/Enable ad form business-logic */
-var changeNoticeState = function (newState) {
-  for (var idx = 0; idx < fieldsetsArray.length; idx++) {
-    fieldsetsArray[idx].disabled = newState;
+var changeNoticeState = function (objectForChange, newState) {
+  for (var idx = 0; idx < objectForChange.length; idx++) {
+    objectForChange[idx].disabled = newState;
   }
 };
 
 /*  Set disabled state at opened window */
-changeNoticeState(true);
+changeNoticeState(fieldsetsArray, true);
+changeNoticeState(mapFiltersArray, true);
 
 /*  Add Hendler for MainPin */
 mainPin.addEventListener('mouseup', function () {
   mapForPin.classList.remove('map--faded');
-  changeNoticeState(false);
+  changeNoticeState(fieldsetsArray, false);
+  changeNoticeState(mapFiltersArray, false);
   paintPin();
 });
