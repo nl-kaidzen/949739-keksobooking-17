@@ -11,6 +11,7 @@ var objectsForRent = [];
 
 /*  Search for MainPin  */
 var mainPin = document.querySelector('.map__pin--main');
+var MAINPIN__NEEDLE__HEIGHT = 22 - 6; /*  Height = 22px and translate top for 6px */
 
 /*  Serch for fieldsets and selects for changeState */
 var fieldsetsArray = document.querySelectorAll('fieldset');
@@ -79,6 +80,23 @@ var changeNoticeState = function (objectForChange, newState) {
 changeNoticeState(fieldsetsArray, true);
 changeNoticeState(mapFiltersArray, true);
 
+var getAddress = function (objectForTrack) {
+  var currentXPosition = objectForTrack.offsetLeft + objectForTrack.clientWidth / 2;
+  var currentYPosition = objectForTrack.offsetTop + objectForTrack.clientHeight + MAINPIN__NEEDLE__HEIGHT;
+  return (currentXPosition + ', ' + currentYPosition);
+};
+
+var setAddress = function (objectForTrack, objectInput) {
+  if (mapForPin.classList.contains('map--faded') === true) {
+    objectInput.value = mainPin.offsetLeft + mainPin.clientWidth / 2 + ', ' + (mainPin.offsetTop + mainPin.clientHeight / 2);
+  } else {
+    objectInput.value = getAddress(objectForTrack);
+  }
+};
+
+var mainPinAddressInput = document.querySelector('#address');
+setAddress(mainPin, mainPinAddressInput);
+
 /*  Add Hendler for MainPin */
 mainPin.addEventListener('mouseup', function () {
   mapForPin.classList.remove('map--faded');
@@ -86,4 +104,5 @@ mainPin.addEventListener('mouseup', function () {
   changeNoticeState(mapFiltersArray, false);
   adForm.classList.remove('ad-form--disabled');
   paintPin();
+  setAddress(mainPin, mainPinAddressInput);
 });
