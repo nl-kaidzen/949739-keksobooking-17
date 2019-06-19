@@ -106,3 +106,14 @@ mainPin.addEventListener('mouseup', function () {
   paintPin();
   setAddress(mainPin, mainPinAddressInput);
 });
+
+/*  --------Validation----------  */
+/*
+var noticeForm = document.querySelector('.notice');
+var adTitle = noticeForm.querySelector('input[name=title]');
+var adHouseType = noticeForm.querySelector('input[name=type]');
+var adPrice = noticeForm.querySelector('input[name=price]');
+var adTimeIn = noticeForm.querySelector('#timein');
+var adTimeOut = noticeForm.querySelector('#timeout');
+var adRoomNumber = noticeForm.querySelector('#room_number');
+var adCapacity = noticeForm.querySelector('#capacity'); */
