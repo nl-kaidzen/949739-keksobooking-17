@@ -108,12 +108,65 @@ mainPin.addEventListener('mouseup', function () {
 });
 
 /*  --------Validation----------  */
-/*
 var noticeForm = document.querySelector('.notice');
-var adTitle = noticeForm.querySelector('input[name=title]');
-var adHouseType = noticeForm.querySelector('input[name=type]');
+/*  var adTitle = noticeForm.querySelector('input[name=title]');  */
+var adHouseType = noticeForm.querySelector('select[name=type]');
 var adPrice = noticeForm.querySelector('input[name=price]');
 var adTimeIn = noticeForm.querySelector('#timein');
 var adTimeOut = noticeForm.querySelector('#timeout');
 var adRoomNumber = noticeForm.querySelector('#room_number');
-var adCapacity = noticeForm.querySelector('#capacity'); */
+var adCapacity = noticeForm.querySelector('#capacity');
+
+var MIN_PRICE = [0, 1000, 5000, 10000];
+var BOOKING_TIMES = ['12:00', '13:00', '14:00'];
+var ROOMS_NUMBER = [
+  {select: 0, firstIndex: 2, lastIndex: 2},
+  {select: 1, firstIndex: 1, lastIndex: 2},
+  {select: 2, firstIndex: 0, lastIndex: 2},
+  {select: 3, firstIndex: 3, lastIndex: 3}];
+
+var getSelectedOption = function (object) {
+  var objectOptions = object.querySelectorAll('option');
+  var selectedOption = 0;
+  for (var i = 0; i < objectOptions.length; i++) {
+    if (objectOptions[i].selected === true) {
+      selectedOption = i;
+    }
+  }
+  return selectedOption;
+};
+
+var setSelectedOption = function (object, currentSelectIndex, newSelectIndex) {
+  var objectOptions = object.querySelectorAll('option');
+  objectOptions[currentSelectIndex].selected = false;
+  objectOptions[newSelectIndex.selected] = true;
+};
+
+var setDisabledOption = function (object, selectorIndex) {
+  /*  set Disabled status for all SELECT */
+  for (var startI = 0; startI < object.children.length; startI++) {
+    object.children[startI].disabled = true;
+  }
+
+  /*  set Enabled status for SELECT from firstIndex to lastIndex */
+  var startSelector = ROOMS_NUMBER[selectorIndex].firstIndex;
+  var endSelector = ROOMS_NUMBER[selectorIndex].lastIndex;
+  for (startSelector; startSelector <= endSelector; startSelector++) {
+    object.children[startSelector].disabled = false;
+  }
+};
+
+adHouseType.addEventListener('click', function () {
+  adPrice.min = MIN_PRICE[getSelectedOption(adHouseType)];
+});
+adTimeIn.addEventListener('click', function () {
+  setSelectedOption(adTimeOut, getSelectedOption(adTimeOut), getSelectedOption(adTimeIn));
+  adTimeOut.value = BOOKING_TIMES[getSelectedOption(adTimeIn)];
+});
+adTimeOut.addEventListener('click', function () {
+  setSelectedOption(adTimeIn, getSelectedOption(adTimeIn), getSelectedOption(adTimeOut));
+  adTimeIn.value = BOOKING_TIMES[getSelectedOption(adTimeOut)];
+});
+adRoomNumber.addEventListener('click', function () {
+  setDisabledOption(adCapacity, getSelectedOption(adRoomNumber));
+});
