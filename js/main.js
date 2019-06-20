@@ -153,7 +153,7 @@ var setDisabledOption = function (object, selectorIndex) {
 
 adHouseType.addEventListener('change', function () {
   var optionIndex = getSelectedOption(adHouseType);
-  adPrice.min = MIN_PRICE[getSelectedOption(adHouseType)];
+  adPrice.min = MIN_PRICE[optionIndex];
   adPrice.placeholder = MIN_PRICE[optionIndex];
 });
 adTimeIn.addEventListener('change', function () {
