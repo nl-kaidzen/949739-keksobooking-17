@@ -11,7 +11,7 @@ var objectsForRent = [];
 
 /*  Search for MainPin  */
 var mainPin = document.querySelector('.map__pin--main');
-var MAINPIN__NEEDLE__HEIGHT = 22 - 6; /*  Height = 22px and translate top for 6px */
+var MAINPIN_NEEDLE_HEIGHT = 22 - 6; /*  Height = 22px and translate top for 6px */
 
 /*  Serch for fieldsets and selects for changeState */
 var fieldsetsArray = document.querySelectorAll('fieldset');
@@ -82,7 +82,7 @@ changeNoticeState(mapFiltersArray, true);
 
 var getAddress = function (objectForTrack) {
   var currentXPosition = objectForTrack.offsetLeft + objectForTrack.clientWidth / 2;
-  var currentYPosition = objectForTrack.offsetTop + objectForTrack.clientHeight + MAINPIN__NEEDLE__HEIGHT;
+  var currentYPosition = objectForTrack.offsetTop + objectForTrack.clientHeight + MAINPIN_NEEDLE_HEIGHT;
   return (currentXPosition + ', ' + currentYPosition);
 };
 
@@ -125,6 +125,7 @@ var ROOMS_NUMBER = [
   {select: 2, firstIndex: 0, lastIndex: 2},
   {select: 3, firstIndex: 3, lastIndex: 3}];
 
+/*  getSelectFunction return index of selected option at object,which linked inside function as parameter */
 var getSelectedOption = function (object) {
   var objectOptions = object.querySelectorAll('option');
   var selectedOption = 0;
@@ -134,12 +135,6 @@ var getSelectedOption = function (object) {
     }
   }
   return selectedOption;
-};
-
-var setSelectedOption = function (object, currentSelectIndex, newSelectIndex) {
-  var objectOptions = object.querySelectorAll('option');
-  objectOptions[currentSelectIndex].selected = false;
-  objectOptions[newSelectIndex.selected] = true;
 };
 
 var setDisabledOption = function (object, selectorIndex) {
@@ -156,17 +151,17 @@ var setDisabledOption = function (object, selectorIndex) {
   }
 };
 
-adHouseType.addEventListener('click', function () {
+adHouseType.addEventListener('change', function () {
+  var optionIndex = getSelectedOption(adHouseType);
   adPrice.min = MIN_PRICE[getSelectedOption(adHouseType)];
+  adPrice.placeholder = MIN_PRICE[optionIndex];
 });
-adTimeIn.addEventListener('click', function () {
-  setSelectedOption(adTimeOut, getSelectedOption(adTimeOut), getSelectedOption(adTimeIn));
+adTimeIn.addEventListener('change', function () {
   adTimeOut.value = BOOKING_TIMES[getSelectedOption(adTimeIn)];
 });
-adTimeOut.addEventListener('click', function () {
-  setSelectedOption(adTimeIn, getSelectedOption(adTimeIn), getSelectedOption(adTimeOut));
+adTimeOut.addEventListener('change', function () {
   adTimeIn.value = BOOKING_TIMES[getSelectedOption(adTimeOut)];
 });
-adRoomNumber.addEventListener('click', function () {
+adRoomNumber.addEventListener('change', function () {
   setDisabledOption(adCapacity, getSelectedOption(adRoomNumber));
 });
