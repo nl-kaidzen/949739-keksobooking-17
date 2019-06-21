@@ -98,14 +98,14 @@ var mainPinAddressInput = document.querySelector('#address');
 setAddress(mainPin, mainPinAddressInput);
 
 /*  Add Hendler for MainPin */
-mainPin.addEventListener('mouseup', function () {
+var setActiveState = function () {
   mapForPin.classList.remove('map--faded');
   changeNoticeState(fieldsetsArray, false);
   changeNoticeState(mapFiltersArray, false);
   adForm.classList.remove('ad-form--disabled');
   paintPin();
-  setAddress(mainPin, mainPinAddressInput);
-});
+
+};
 
 /*  --------Validation----------  */
 var noticeForm = document.querySelector('.notice');
@@ -165,3 +165,62 @@ adTimeOut.addEventListener('change', function () {
 adRoomNumber.addEventListener('change', function () {
   setDisabledOption(adCapacity, getSelectedOption(adRoomNumber));
 });
+
+/*  ---------------D'N'D Functional-----------------------  */
+
+//  var mainPin = document.querySelector('.map__pin--main');     From window
+//  var mapForPin = document.querySelector('.map');
+var PIN_HEIGHT = 81;
+var PIN_WIDTH = 65;
+var LIMIT_COORDS = {
+  left: 0 - PIN_WIDTH / 2,
+  right: 1200 - PIN_WIDTH / 2,
+  top: 130 - PIN_HEIGHT,
+  bottom: 630 - PIN_HEIGHT
+};
+
+mainPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  setActiveState();
+  setAddress(mainPin, mainPinAddressInput);
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    if ((mainPin.offsetLeft - shift.x) <= LIMIT_COORDS.right) {
+      if ((mainPin.offsetLeft - shift.x) >= LIMIT_COORDS.left) {
+        startCoords.x = moveEvt.clientX;
+        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      }
+    }
+    if ((mainPin.offsetTop - shift.y) <= LIMIT_COORDS.bottom) {
+      if ((mainPin.offsetTop - shift.y) >= LIMIT_COORDS.top) {
+        startCoords.y = moveEvt.clientY;
+        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      }
+    }
+    setAddress(mainPin, mainPinAddressInput);
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    containerForPin.removeEventListener('mousemove', onMouseMove);
+    containerForPin.removeEventListener('mouseup', onMouseUp);
+  };
+
+  containerForPin.addEventListener('mousemove', onMouseMove);
+  containerForPin.addEventListener('mouseup', onMouseUp);
+});
+
