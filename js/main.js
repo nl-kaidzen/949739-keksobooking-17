@@ -1,29 +1,17 @@
 'use strict';
 
-var OFFER_TYPE = ['palace', 'flat', 'house', 'bungalo'];
-var mapForPin = document.querySelector('.map');
-var containerForPin = mapForPin.querySelector('.map__pins');
-var pinTemplate = document.querySelector('#pin');
-var pinButton = pinTemplate.content.querySelector('.map__pin');
-
-var SCREEN_WIDTH = mapForPin.clientWidth;
 var objectsForRent = [];
-
-/*  Search for MainPin  */
-var mainPin = document.querySelector('.map__pin--main');
-var MAINPIN_NEEDLE_HEIGHT = 22 - 6; /*  Height = 22px and translate top for 6px */
-
-/*  Serch for fieldsets and selects for changeState */
-var fieldsetsArray = document.querySelectorAll('fieldset');
-var mapFiltersArray = document.querySelectorAll('select[class=map__filter]');
-
-/*  Search for ad-form to changeState */
-var adForm = document.querySelector('.ad-form');
 
 /*  Create random number (min, max) */
 var createNumber = function (minNumber, maxNumber) {
   return (Math.round(minNumber + Math.random() * (maxNumber - minNumber)));
 };
+
+/*  ____________________________MOCKUPS DATA___________________________*/
+// createNumber function from WINDOW;
+// objectsForRent from WINDOW;
+var OFFER_TYPE = ['palace', 'flat', 'house', 'bungalo'];
+var SCREEN_WIDTH = 1200;
 
 /*  Create data for rent object */
 var createObjectForRent = function (i) {
@@ -46,8 +34,114 @@ for (var index = 0; index < 8; index++) {
   objectsForRent.push(createObjectForRent(index));
 }
 
-/*  Paint new Pins to Map*/
 
+/*  ----------- MAP LOGIC ------------  */
+
+var mapForPin = document.querySelector('.map');
+var containerForPin = mapForPin.querySelector('.map__pins');
+var pinTemplate = document.querySelector('#pin');
+var pinButton = pinTemplate.content.querySelector('.map__pin');
+var mainPin = document.querySelector('.map__pin--main');
+
+// SET START STATEMENT
+
+var fieldsetsArray = document.querySelectorAll('fieldset');
+var mapFiltersArray = document.querySelectorAll('select[class=map__filter]');
+/*  Disable/Enable ad form business-logic */
+var changeNoticeState = function (objectForChange, newState) {
+  for (var i = 0; i < objectForChange.length; i++) {
+    objectForChange[i].disabled = newState;
+  }
+};
+/*  Set disabled state at opened window */
+changeNoticeState(fieldsetsArray, true);
+changeNoticeState(mapFiltersArray, true);
+
+/*  Search for ad-form to changeState */
+var adForm = document.querySelector('.ad-form');
+
+/*  Add Hendler for MainPin */
+var setActiveState = function () {
+  mapForPin.classList.remove('map--faded');
+  changeNoticeState(fieldsetsArray, false);
+  changeNoticeState(mapFiltersArray, false);
+  adForm.classList.remove('ad-form--disabled');
+  paintPin();
+};
+
+//  PIN MOVING LOGIC
+
+/*  ---------------D'N'D Functional-----------------------  */
+var PIN_HEIGHT = 81;
+var PIN_WIDTH = 65;
+var LIMIT_COORDS = {
+  left: 0 - PIN_WIDTH / 2,
+  right: 1200 - PIN_WIDTH / 2,
+  top: 130 - PIN_HEIGHT,
+  bottom: 630 - PIN_HEIGHT
+};
+
+mainPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  setActiveState();
+  setAddress(mainPin, mainPinAddressInput);
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    if ((mainPin.offsetLeft - shift.x) <= LIMIT_COORDS.right) {
+      if ((mainPin.offsetLeft - shift.x) >= LIMIT_COORDS.left) {
+        startCoords.x = moveEvt.clientX;
+        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      }
+    }
+    if ((mainPin.offsetTop - shift.y) <= LIMIT_COORDS.bottom) {
+      if ((mainPin.offsetTop - shift.y) >= LIMIT_COORDS.top) {
+        startCoords.y = moveEvt.clientY;
+        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      }
+    }
+    setAddress(mainPin, mainPinAddressInput);
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
+//  PIN PAINTING LOGIC
+
+/*  Search for MainPin  */
+//  var mainPin = document.querySelector('.map__pin--main'); use from map.js
+var MAINPIN_NEEDLE_HEIGHT = 22 - 6; /*  Height = 22px and translate top for 6px */
+/*  Clone Pin-Element*/
+var addPinToMap = function (newPinElement) {
+  containerForPin.appendChild(newPinElement);
+};
+/*  Change Object Data at created pin */
+var changePinData = function (newPinElement, objectForRentData) {
+  newPinElement.style = 'left: ' + (objectForRentData.location.x - newPinElement.clientWidth / 2) + 'px; top: ' + (objectForRentData.location.y - newPinElement.clientHeight) + 'px;';
+  newPinElement.children[0].src = objectForRentData.author.avatar; /* Method .children could be replaced to .querySelector()  */
+  newPinElement.children[0].alt = 'Здесь будет текст объявления';
+};
+/*  Paint new Pins to Map*/
 var paintPin = function () {
   for (var i = 0; i < objectsForRent.length; i++) {
     var newPinElement = pinButton.cloneNode(true);
@@ -55,30 +149,6 @@ var paintPin = function () {
     changePinData(newPinElement, objectsForRent[i]);
   }
 };
-
-/*  Clone Pin-Element*/
-var addPinToMap = function (newPinElement) {
-  containerForPin.appendChild(newPinElement);
-};
-
-/*  Change Object Data at created pin */
-var changePinData = function (newPinElement, objectForRentData) {
-  newPinElement.style = 'left: ' + (objectForRentData.location.x - newPinElement.clientWidth / 2) + 'px; top: ' + (objectForRentData.location.y - newPinElement.clientHeight) + 'px;';
-  newPinElement.children[0].src = objectForRentData.author.avatar; /* Method .children could be replaced to .querySelector()  */
-  newPinElement.children[0].alt = 'Здесь будет текст объявления';
-};
-
-
-/*  Disable/Enable ad form business-logic */
-var changeNoticeState = function (objectForChange, newState) {
-  for (var idx = 0; idx < objectForChange.length; idx++) {
-    objectForChange[idx].disabled = newState;
-  }
-};
-
-/*  Set disabled state at opened window */
-changeNoticeState(fieldsetsArray, true);
-changeNoticeState(mapFiltersArray, true);
 
 var getAddress = function (objectForTrack) {
   var currentXPosition = objectForTrack.offsetLeft + objectForTrack.clientWidth / 2;
@@ -96,16 +166,6 @@ var setAddress = function (objectForTrack, objectInput) {
 
 var mainPinAddressInput = document.querySelector('#address');
 setAddress(mainPin, mainPinAddressInput);
-
-/*  Add Hendler for MainPin */
-var setActiveState = function () {
-  mapForPin.classList.remove('map--faded');
-  changeNoticeState(fieldsetsArray, false);
-  changeNoticeState(mapFiltersArray, false);
-  adForm.classList.remove('ad-form--disabled');
-  paintPin();
-
-};
 
 /*  --------Validation----------  */
 var noticeForm = document.querySelector('.notice');
@@ -165,62 +225,3 @@ adTimeOut.addEventListener('change', function () {
 adRoomNumber.addEventListener('change', function () {
   setDisabledOption(adCapacity, getSelectedOption(adRoomNumber));
 });
-
-/*  ---------------D'N'D Functional-----------------------  */
-
-//  var mainPin = document.querySelector('.map__pin--main');     From window
-//  var mapForPin = document.querySelector('.map');
-var PIN_HEIGHT = 81;
-var PIN_WIDTH = 65;
-var LIMIT_COORDS = {
-  left: 0 - PIN_WIDTH / 2,
-  right: 1200 - PIN_WIDTH / 2,
-  top: 130 - PIN_HEIGHT,
-  bottom: 630 - PIN_HEIGHT
-};
-
-mainPin.addEventListener('mousedown', function (evt) {
-  evt.preventDefault();
-
-  setActiveState();
-  setAddress(mainPin, mainPinAddressInput);
-
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
-
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
-    };
-
-    if ((mainPin.offsetLeft - shift.x) <= LIMIT_COORDS.right) {
-      if ((mainPin.offsetLeft - shift.x) >= LIMIT_COORDS.left) {
-        startCoords.x = moveEvt.clientX;
-        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
-      }
-    }
-    if ((mainPin.offsetTop - shift.y) <= LIMIT_COORDS.bottom) {
-      if ((mainPin.offsetTop - shift.y) >= LIMIT_COORDS.top) {
-        startCoords.y = moveEvt.clientY;
-        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-      }
-    }
-    setAddress(mainPin, mainPinAddressInput);
-  };
-
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  };
-
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-});
-
