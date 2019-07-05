@@ -53,12 +53,12 @@
       };
 
       if (((mainPin.offsetLeft - shift.x) <= LIMIT_COORDS.right) && ((mainPin.offsetLeft - shift.x) >= LIMIT_COORDS.left)) {
-          startCoords.x = moveEvt.clientX;
-          mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+        startCoords.x = moveEvt.clientX;
+        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
       }
       if (((mainPin.offsetTop - shift.y) <= LIMIT_COORDS.bottom) && ((mainPin.offsetTop - shift.y) >= LIMIT_COORDS.top)) {
-          startCoords.y = moveEvt.clientY;
-          mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+        startCoords.y = moveEvt.clientY;
+        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
       }
       setAddress(mainPin, mainPinAddressInput);
     };
