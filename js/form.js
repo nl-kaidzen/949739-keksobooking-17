@@ -9,7 +9,7 @@
   var adRoomNumber = noticeForm.querySelector('#room_number');
   var adCapacity = noticeForm.querySelector('#capacity');
 
-  var MIN_PRICE = [0, 1000, 5000, 10000];
+  var MIN_PRICES = [0, 1000, 5000, 10000];
   var BOOKING_TIMES = ['12:00', '13:00', '14:00'];
   var ROOMS_NUMBER = [{
     select: 0,
@@ -61,8 +61,8 @@
 
   adHouseType.addEventListener('change', function () {
     var optionIndex = getSelectedOption(adHouseType);
-    adPrice.min = MIN_PRICE[optionIndex];
-    adPrice.placeholder = MIN_PRICE[optionIndex];
+    adPrice.min = MIN_PRICES[optionIndex];
+    adPrice.placeholder = MIN_PRICES[optionIndex];
   });
   adTimeIn.addEventListener('change', function () {
     adTimeOut.value = BOOKING_TIMES[getSelectedOption(adTimeIn)];
