@@ -20,6 +20,20 @@
 
   //  PIN PAINTING LOGIC
 
+  /*  Get objectForRent from server */
+  var onError = function () {
+    var errorTemplate = document.querySelector('#error');
+    var main = document.querySelector('main');
+    var errorMessage = errorTemplate.content.cloneNode(true);
+    main.appendChild(errorMessage);
+  };
+
+  var onSuccess = function (data) {
+    window.common.objectsForRent = data;
+  };
+
+  window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
+
   /*  Clone Pin-Element*/
   var containerForPin = mapForPin.querySelector('.map__pins');
   var addPinToMap = function (newPinElement) {
@@ -51,6 +65,7 @@
     changeNoticeState(fieldsetsArray, false);
     changeNoticeState(mapFiltersArray, false);
     adForm.classList.remove('ad-form--disabled');
+
     paintPin();
   };
 
@@ -58,4 +73,5 @@
     mapForPin: mapForPin,
     setActiveState: setActiveState
   };
+
 })();
