@@ -61,6 +61,9 @@
   filterHouseType.addEventListener('change', function () {
     var newHouseType = filterHouseType.value;
     var objectsForPaint = getFilteredObject(window.common.objectsForRent, 'type', newHouseType);
+    if (objectsForPaint.length > 5) {
+      objectsForPaint.slice(0, 5);
+    }
     removePins(containerForPin);
     paintPin(objectsForPaint);
   });
