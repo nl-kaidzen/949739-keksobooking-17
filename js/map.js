@@ -65,7 +65,6 @@
     paintPin(objectsForPaint);
   });
 
-
   /*  Clone Pin-Element*/
   var containerForPin = mapForPin.querySelector('.map__pins');
   var addPinToMap = function (newPinElement) {
@@ -80,6 +79,7 @@
   /*  Paint new Pins to Map*/
   var pinTemplate = document.querySelector('#pin');
   var pinButton = pinTemplate.content.querySelector('.map__pin');
+
   var paintPin = function (objectsForPaint) {
     for (var i = 0; i < objectsForPaint.length; i++) {
       var newPinElement = pinButton.cloneNode(true);
