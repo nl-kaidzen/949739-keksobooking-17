@@ -33,18 +33,6 @@
   }
   ];
 
-  /*  getSelectFunction return index of selected option at object,which linked inside function as parameter */
-  var getSelectedOption = function (object) {
-    var objectOptions = object.querySelectorAll('option');
-    var selectedOption = 0;
-    for (var i = 0; i < objectOptions.length; i++) {
-      if (objectOptions[i].selected === true) {
-        selectedOption = i;
-      }
-    }
-    return selectedOption;
-  };
-
   var setDisabledOption = function (object, selectorIndex) {
     /*  set Disabled status for all SELECT */
     for (var i = 0; i < object.children.length; i++) {
@@ -60,18 +48,18 @@
   };
 
   adHouseType.addEventListener('change', function () {
-    var optionIndex = getSelectedOption(adHouseType);
+    var optionIndex = window.common.getSelectedOption(adHouseType);
     adPrice.min = MIN_PRICES[optionIndex];
     adPrice.placeholder = MIN_PRICES[optionIndex];
   });
   adTimeIn.addEventListener('change', function () {
-    adTimeOut.value = BOOKING_TIMES[getSelectedOption(adTimeIn)];
+    adTimeOut.value = BOOKING_TIMES[window.common.getSelectedOption(adTimeIn)];
   });
   adTimeOut.addEventListener('change', function () {
-    adTimeIn.value = BOOKING_TIMES[getSelectedOption(adTimeOut)];
+    adTimeIn.value = BOOKING_TIMES[window.common.getSelectedOption(adTimeOut)];
   });
   adRoomNumber.addEventListener('change', function () {
-    setDisabledOption(adCapacity, getSelectedOption(adRoomNumber));
+    setDisabledOption(adCapacity, window.common.getSelectedOption(adRoomNumber));
   });
 
 })();
