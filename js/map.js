@@ -33,12 +33,18 @@
   };
 
   window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
+
   // SHOW INFO-CARD WITH OBJECT PARAMETERS
-  var showCard = function() {
+  var showCard = function () {
     var cardTemplate = document.querySelector('#card');
     var modalCard = cardTemplate.content.cloneNode(true);
     containerForPin.appendChild(modalCard);
   };
+
+  //  CHANGE DATA IN CARD
+  /*  var changeCardData = function () {
+
+  }*/
 
   //  FILTER FUNCTIONAL
   /*  Generate new array with filtered objects. Throw inside OBJECT, KEY for filter, finding VALLUE */
@@ -78,7 +84,7 @@
   var containerForPin = mapForPin.querySelector('.map__pins');
   var addPinToMap = function (newPinElement) {
     containerForPin.appendChild(newPinElement);
-    newPinElement.addEventListener('click', showCard());
+    newPinElement.addEventListener('click', showCard);
   };
   /*  Change Object Data at created pin */
   var changePinData = function (newPinElement, objectForRentData) {
