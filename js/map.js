@@ -39,6 +39,7 @@
     var cardTemplate = document.querySelector('#card');
     var modalCard = cardTemplate.content.cloneNode(true);
     containerForPin.appendChild(modalCard);
+    window.card.changeCardData();
   };
 
   //  CHANGE DATA IN CARD
