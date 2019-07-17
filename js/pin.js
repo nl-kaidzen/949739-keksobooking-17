@@ -75,9 +75,11 @@
   });
 
   /*  Clone Pin-Element*/
-  var addPinToMap = function (newPinElement) {
+  var addPinToMap = function (newPinElement, objectsForPaint) {
     window.map.containerForPin.appendChild(newPinElement);
-    newPinElement.addEventListener('click', window.card.showCard);
+    newPinElement.addEventListener('click', function () {
+      window.card.showCard(objectsForPaint);
+    });
   };
   /*  Change Object Data at created pin */
   var changePinData = function (newPinElement, objectForRentData) {
@@ -92,7 +94,7 @@
   var paintPin = function (objectsForPaint) {
     for (var i = 0; i < objectsForPaint.length; i++) {
       var newPinElement = pinButton.cloneNode(true);
-      addPinToMap(newPinElement);
+      addPinToMap(newPinElement, objectsForPaint[i]);
       changePinData(newPinElement, objectsForPaint[i]);
     }
   };
