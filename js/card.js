@@ -73,9 +73,21 @@
     cardDescription.innerHTML = object.offer.description;
 
     /*  ADD EventListner at CLOSE BUTTON  */
-    cardCloseBtn.addEventListener('click', function () {
+    // Click callback
+    var onClickCloseBtn = function () {
       card.remove();
-    });
+    };
+    //  Escape callback
+    var onPressEsc = function (evt) {
+      if (evt.keyCode === 27) {
+        card.remove();
+        document.removeEventListener('keydown', onPressEsc);
+      }
+    };
+
+    // Add listener for CloseBtn
+    cardCloseBtn.addEventListener('click', onClickCloseBtn);
+    document.addEventListener('keydown', onPressEsc);
   };
 
   window.card = {
