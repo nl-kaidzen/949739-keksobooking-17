@@ -114,7 +114,4 @@
     getFilteredObjects: getFilteredObjects,
     getFilterParams: getFilterParams
   };
-
-
 })();
-
