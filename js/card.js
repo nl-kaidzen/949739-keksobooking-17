@@ -64,13 +64,13 @@
 
     /*  Change data */
     cardUserPic.src = object.author.avatar;
-    cardTitle.innerHTML = object.offer.title;
-    cardAddress.innerHTML = object.offer.address;
-    cardHousePrice.innerHTML = object.offer.price;
-    cardHouseType.innerHTML = HouseTypeMap[object.offer.type];
-    cardRoomNumber.innerHTML = object.offer.rooms + ' комнаты для ' + object.offer.guests + ' гостей.';
-    cardCheckTime.innerHTML = 'Заезд после ' + object.offer.checkin + ', выезд до ' + object.offer.checkout;
-    cardDescription.innerHTML = object.offer.description;
+    cardTitle.textContent = object.offer.title;
+    cardAddress.textContent = object.offer.address;
+    cardHousePrice.textContent = object.offer.price;
+    cardHouseType.textContent = HouseTypeMap[object.offer.type];
+    cardRoomNumber.innertextContentHTML = object.offer.rooms + ' комнаты для ' + object.offer.guests + ' гостей.';
+    cardCheckTime.textContent = 'Заезд после ' + object.offer.checkin + ', выезд до ' + object.offer.checkout;
+    cardDescription.textContent = object.offer.description;
 
     /*  ADD EventListner at CLOSE BUTTON  */
     // Click callback
