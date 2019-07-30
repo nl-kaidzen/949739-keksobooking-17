@@ -78,11 +78,7 @@
   var filterPrice = function (it) {
     var minPrice = HousePriceMap[filterParams.price][0];
     var maxPrice = HousePriceMap[filterParams.price][1];
-    if (((it.offer.price >= minPrice) && (it.offer.price <= maxPrice)) || filterParams.price === 'any') {
-      return true;
-    } else {
-      return false;
-    }
+    return (((it.offer.price >= minPrice) && (it.offer.price <= maxPrice)) || filterParams.price === 'any');
   };
 
   var resultFilter = function (it) {

@@ -68,7 +68,7 @@
     cardAddress.textContent = object.offer.address;
     cardHousePrice.textContent = object.offer.price;
     cardHouseType.textContent = HouseTypeMap[object.offer.type];
-    cardRoomNumber.innertextContentHTML = object.offer.rooms + ' комнаты для ' + object.offer.guests + ' гостей.';
+    cardRoomNumber.textContent = object.offer.rooms + ' комнаты для ' + object.offer.guests + ' гостей.';
     cardCheckTime.textContent = 'Заезд после ' + object.offer.checkin + ', выезд до ' + object.offer.checkout;
     cardDescription.textContent = object.offer.description;
 
