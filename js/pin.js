@@ -4,6 +4,10 @@
   //  GET ADRESS FROM PIN LOGIC
   var mainPin = document.querySelector('.map__pin--main');
   var MAINPIN_NEEDLE_HEIGHT = 22 - 6; /*  Height = 22px and translate top for 6px */
+  var PIN_START_COORDS = {
+    x: 570,
+    y: 375
+  };
 
   var getAddress = function (objectForTrack) {
     var currentXPosition = objectForTrack.offsetLeft + objectForTrack.clientWidth / 2;
@@ -106,10 +110,17 @@
     }
   };
 
+  var moveStartPin = function () {
+    mainPin.style.left = PIN_START_COORDS.x + 'px';
+    mainPin.style.top = PIN_START_COORDS.y + 'px';
+    setAddress(mainPin, mainPinAddressInput);
+  };
+
   window.pin = {
     addPinToMap: addPinToMap,
     changePinData: changePinData,
     paintPin: paintPin,
-    removePins: removePins
+    removePins: removePins,
+    moveStartPin: moveStartPin
   };
 })();

@@ -21,15 +21,13 @@
 
   // FEATURES FILTER
   var filterCheckbox = Array.from(filterHouseFeatures.querySelectorAll('.map__checkbox'));
+  var mapFiltersListener = document.querySelector('.map__filters');
+
   var setFilterActiveState = function () {
-    filterHouseType.addEventListener('change', getFilterParams);
-    filterHousePrice.addEventListener('change', getFilterParams);
-    filterHouseRooms.addEventListener('change', getFilterParams);
-    filterHouseGuests.addEventListener('change', getFilterParams);
-    filterCheckbox.forEach(function (it) {
-      it.addEventListener('click', getFilterParams);
+    mapFiltersListener.addEventListener('change', function () {
+      getFilterParams();
     });
-    getFilterParams(); /* First call after activate filters for paint some pins  */
+    getFilterParams();/*  For paint pins with default filter values */
   };
 
   var getFilterParams = function () {
@@ -46,6 +44,7 @@
     });
     getFilteredObjects(window.common.objectsForRent);
   };
+
   //  OBJECT = objectsForRent item (1 house);
   //  param = type, rooms or guests
   //  targetValue = 'bungalo'
