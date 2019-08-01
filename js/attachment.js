@@ -14,7 +14,7 @@
 
   var avatarFile;
   var photoFiles = []; //  Array for files from FileChooser
-  //  var photoCorrect = []; // Array with correct photos for download at server
+  var photoCorrect = []; // Array with correct photos for download at server
   var image; // Image for room photo
 
   //  Clear avatar
@@ -67,12 +67,14 @@
           renderPreview(element, image);
           photoContainer.appendChild(photoClone);
         }
+        photoCorrect.push(element);
       }
     });
   });
 
   window.attachment = {
     clearAvatar: clearAvatar,
-    avatarFile: avatarFile
+    avatarFile: avatarFile,
+    photoCorrect: photoCorrect
   };
 })();

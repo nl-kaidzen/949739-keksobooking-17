@@ -106,6 +106,14 @@
     evt.preventDefault();
 
     var formData = new FormData(advertForm);
+    if (window.attachment.photoFile) {
+      formData.append('avatar', window.attachment.photoFile);
+    }
+    if (window.attachment.photoCorrect.length > 0) {
+      window.attachment.photoCorrect.forEach(function (it) {
+        formData.append('images[]', it);
+      });
+    }
     window.load.post('https://js.dump.academy/keksobooking', formData, onSuccess, onError);
 
     /*  Set disable state for page  */
