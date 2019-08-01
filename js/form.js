@@ -106,17 +106,22 @@
     evt.preventDefault();
 
     var formData = new FormData(advertForm);
+
+    //  Add user avatar to formData
     if (window.attachment.photoFile) {
       formData.append('avatar', window.attachment.photoFile);
     }
-    if (window.attachment.photoCorrect.length > 0) {
-      window.attachment.photoCorrect.forEach(function (it) {
+
+    //  Add user photos to formData
+    if (window.attachment.photosCorrect.length > 0) {
+      window.attachment.photosCorrect.forEach(function (it) {
         formData.append('images[]', it);
       });
     }
+
     window.load.post('https://js.dump.academy/keksobooking', formData, onSuccess, onError);
 
-    /*  Set disable state for page  */
+    //  Clear all data, images and avatar from form
     clearForm();
   });
 
@@ -126,6 +131,7 @@
     window.pin.removePins(window.map.containerForPin);
     window.pin.moveStartPin();
     window.attachment.clearAvatar();
+    window.attachment.clearPhoto();
   };
 
   adClearBtn.addEventListener('click', clearForm);
