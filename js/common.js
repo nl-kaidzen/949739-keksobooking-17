@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var objectsForRent = [];
+  var adForm = document.querySelector('.ad-form');
 
   /*  Create random number (min, max) */
   var createNumber = function (minNumber, maxNumber) {
@@ -21,6 +22,7 @@
 
   window.common = {
     objectsForRent: objectsForRent,
+    adForm: adForm,
     createNumber: createNumber,
     getSelectedOption: getSelectedOption
   };

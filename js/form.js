@@ -1,14 +1,14 @@
 'use strict';
 
 (function () {
-  var noticeForm = document.querySelector('.ad-form');
-  var adHouseType = noticeForm.querySelector('select[name=type]');
-  var adPrice = noticeForm.querySelector('input[name=price]');
-  var adTimeIn = noticeForm.querySelector('#timein');
-  var adTimeOut = noticeForm.querySelector('#timeout');
-  var adRoomNumber = noticeForm.querySelector('#room_number');
-  var adCapacity = noticeForm.querySelector('#capacity');
-  var adClearBtn = noticeForm.querySelector('.ad-form__reset');
+  var advertForm = window.common.adForm;
+  var adHouseType = advertForm.querySelector('select[name=type]');
+  var adPrice = advertForm.querySelector('input[name=price]');
+  var adTimeIn = advertForm.querySelector('#timein');
+  var adTimeOut = advertForm.querySelector('#timeout');
+  var adRoomNumber = advertForm.querySelector('#room_number');
+  var adCapacity = advertForm.querySelector('#capacity');
+  var adClearBtn = advertForm.querySelector('.ad-form__reset');
 
   var MIN_PRICES = [0, 1000, 5000, 10000];
   var BOOKING_TIMES = ['12:00', '13:00', '14:00'];
@@ -102,24 +102,22 @@
     document.addEventListener('keydown', onSuccessEscPress);
   };
 
-  noticeForm.addEventListener('submit', function (evt) {
+  advertForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
 
-    var formData = new FormData(noticeForm);
+    var formData = new FormData(advertForm);
     window.load.post('https://js.dump.academy/keksobooking', formData, onSuccess, onError);
 
     /*  Set disable state for page  */
-    noticeForm.reset();
-    window.map.setDisabledState();
-    window.pin.removePins(window.map.containerForPin);
-    window.pin.moveStartPin();
+    clearForm();
   });
 
   var clearForm = function () {
-    noticeForm.reset();
+    advertForm.reset();
     window.map.setDisabledState();
     window.pin.removePins(window.map.containerForPin);
     window.pin.moveStartPin();
+    window.attachment.clearAvatar();
   };
 
   adClearBtn.addEventListener('click', clearForm);
