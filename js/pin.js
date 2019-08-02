@@ -93,7 +93,7 @@
   var addPinToMap = function (newPinElement, objectsForPaint) {
     window.map.containerForPin.appendChild(newPinElement);
     newPinElement.addEventListener('click', function () {
-      window.card.showCard(objectsForPaint);
+      window.card.showCard(objectsForPaint, newPinElement);
     });
   };
 

@@ -2,7 +2,7 @@
 
 (function () {
   //  Show card logic
-  var showCard = function (object) {
+  var showCard = function (object, pin) {
     var cardTemplate = document.querySelector('#card');
 
     // Check for old card a map and remove
@@ -15,6 +15,17 @@
     var newCard = cardTemplate.content.cloneNode(true);
     window.map.containerForPin.appendChild(newCard);
     window.card.changeCardData(object);
+    removePinActiveState();
+    pin.classList.add('map__pin--active');
+  };
+
+  var removePinActiveState = function () {
+    var pinsOnMap = Array.from(window.map.containerForPin.querySelectorAll('.map__pin'));
+    pinsOnMap.forEach(function (it) {
+      if (it.classList.contains('map__pin--active')) {
+        it.classList.remove('map__pin--active');
+      }
+    });
   };
 
   var changeCardData = function (object) {
@@ -83,11 +94,13 @@
     // Click callback
     var onClickCloseBtn = function () {
       card.remove();
+      removePinActiveState();
     };
     //  Escape callback
     var onPressEsc = function (evt) {
       if (evt.keyCode === parseInt(window.common.KeyCodes.ESC_KEYCODE, 10)) {
         card.remove();
+        removePinActiveState();
         document.removeEventListener('keydown', onPressEsc);
       }
     };
