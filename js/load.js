@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var SERVER_TIMEOUT = 10000;
+  var SERVER_OK_RESPONCE = 200;
+
   window.load = {
     get: function (url, onSuccess, onError) {
       var xhr = new XMLHttpRequest();
@@ -8,7 +11,7 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
+        if (xhr.status === SERVER_OK_RESPONCE) {
           onSuccess(xhr.response);
         } else {
           onError('Ошибка сервера: ' + xhr.status + ' ' + xhr.statusText);
@@ -23,7 +26,7 @@
         onError('Произошла ошибка таймаута');
       });
 
-      xhr.timeout = 10000;
+      xhr.timeout = SERVER_TIMEOUT;
 
       xhr.open('GET', url);
       xhr.send();
@@ -34,7 +37,7 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
+        if (xhr.status === SERVER_OK_RESPONCE) {
           onSuccess(xhr.response);
         } else {
           onError('Ошибка сервера: ' + xhr.status + ' ' + xhr.statusText);
@@ -49,7 +52,7 @@
         onError('Произошла ошибка таймаута');
       });
 
-      xhr.timeout = 10000;
+      xhr.timeout = SERVER_TIMEOUT;
 
       xhr.open('POST', url);
       xhr.send(formData);

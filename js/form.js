@@ -107,8 +107,8 @@
     var formData = new FormData(advertForm);
 
     //  Add user avatar to formData
-    if (window.attachment.photoFile) {
-      formData.append('avatar', window.attachment.photoFile);
+    if (window.attachment.avatarFile) {
+      formData.append('avatar', window.attachment.avatarFile);
     }
 
     //  Add user photos to formData
