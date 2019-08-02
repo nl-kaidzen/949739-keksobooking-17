@@ -1,14 +1,13 @@
 'use strict';
 (function () {
-  //  LISTENERS FOR MAP-FILTER
-  /*  variables */
+  //  Variables
   var mapFilters = document.querySelector('.map__filters');
   var filterHouseType = mapFilters.querySelector('#housing-type');
   var filterHousePrice = mapFilters.querySelector('#housing-price');
   var filterHouseRooms = mapFilters.querySelector('#housing-rooms');
   var filterHouseGuests = mapFilters.querySelector('#housing-guests');
-  var filterHouseFeatures = mapFilters.querySelector('.map__features');
 
+  var filterHouseFeatures = mapFilters.querySelector('.map__features');
   var wifi = mapFilters.querySelector('#filter-wifi');
   var dishwasher = mapFilters.querySelector('#filter-dishwasher');
   var parking = mapFilters.querySelector('#filter-parking');
@@ -25,7 +24,7 @@
 
   var setFilterActiveState = function () {
     mapFiltersListener.addEventListener('change', function () {
-      getFilterParams();
+      window.debounce(getFilterParams);
     });
     getFilterParams();/*  For paint pins with default filter values */
   };

@@ -1,5 +1,10 @@
 'use strict';
 (function () {
+  var KeyCodes = {
+    ESC_KEYCODE: '27',
+    ENTER_KEYCODE: '13'
+  };
+
   var objectsForRent = [];
   var adForm = document.querySelector('.ad-form');
 
@@ -21,6 +26,7 @@
   };
 
   window.common = {
+    KeyCodes: KeyCodes,
     objectsForRent: objectsForRent,
     adForm: adForm,
     createNumber: createNumber,

@@ -57,10 +57,8 @@
   });
 
   // Render some files
-
-  photoChooser.addEventListener('change', function () {
-    photoFiles = Array.from(photoChooser.files);
-    photoFiles.forEach(function (element) {
+  var renderMultiplePreviews = function (imagesList) {
+    imagesList.forEach(function (element) {
       if (checkType(element)) {
         if (!image) {
           image = document.createElement('img');
@@ -76,6 +74,11 @@
         photosCorrect.push(element);
       }
     });
+  };
+
+  photoChooser.addEventListener('change', function () {
+    photoFiles = Array.from(photoChooser.files);
+    renderMultiplePreviews(photoFiles);
   });
 
   var clearPhoto = function () {
@@ -94,7 +97,7 @@
   // Drag'n'drop functional
 
   var avatarDropZone = window.common.adForm.querySelector('.ad-form-header__drop-zone');
-  //  var photoDropZone = window.common.adForm.querySelector('.ad-form__drop-zone');
+  var photoDropZone = window.common.adForm.querySelector('.ad-form__drop-zone');
 
   var preventDefaults = function (evt) {
     evt.stopPropagation();
@@ -111,6 +114,7 @@
     element.style.backgroundColor = DropZoneStyle.BG_DEFAULT;
   };
 
+  //  Add DnD listeners for avatar
   avatarDropZone.addEventListener('dragenter', function (evt) {
     preventDefaults(evt);
     setIndication(avatarDropZone);
@@ -137,6 +141,30 @@
     }
   });
 
+  //  Add DnD listeners for photo
+
+  photoDropZone.addEventListener('dragenter', function (evt) {
+    preventDefaults(evt);
+    setIndication(photoDropZone);
+  });
+
+  photoDropZone.addEventListener('dragover', function (evt) {
+    preventDefaults(evt);
+    setIndication(photoDropZone);
+    evt.dataTransfer.dropEffect = 'copy';
+  });
+
+  photoDropZone.addEventListener('dragleave', function (evt) {
+    preventDefaults(evt);
+    removeIndication(photoDropZone);
+  });
+
+  photoDropZone.addEventListener('drop', function (evt) {
+    preventDefaults(evt);
+    removeIndication(photoDropZone);
+    photoFiles = Array.from(evt.dataTransfer.files);
+    renderMultiplePreviews(photoFiles);
+  });
 
   window.attachment = {
     clearAvatar: clearAvatar,

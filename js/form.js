@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var MIN_PRICES = [0, 1000, 5000, 10000];
+  var BOOKING_TIMES = ['12:00', '13:00', '14:00'];
+
   var advertForm = window.common.adForm;
   var adHouseType = advertForm.querySelector('select[name=type]');
   var adPrice = advertForm.querySelector('input[name=price]');
@@ -9,9 +12,6 @@
   var adRoomNumber = advertForm.querySelector('#room_number');
   var adCapacity = advertForm.querySelector('#capacity');
   var adClearBtn = advertForm.querySelector('.ad-form__reset');
-
-  var MIN_PRICES = [0, 1000, 5000, 10000];
-  var BOOKING_TIMES = ['12:00', '13:00', '14:00'];
 
   adHouseType.addEventListener('change', function () {
     var optionIndex = window.common.getSelectedOption(adHouseType);
@@ -51,7 +51,6 @@
   });
 
   // Hendlers
-
   var successPopup;
   var errorPopup;
   var errorCloseBtn;
@@ -62,7 +61,7 @@
   };
 
   var onSuccessEscPress = function (evt) {
-    if (evt.keyCode === 27) {
+    if (evt.keyCode === parseInt(window.common.KeyCodes.ESC_KEYCODE, 10)) {
       successPopup.remove();
       document.removeEventListener('keydown', onSuccessEscPress);
     }
@@ -74,7 +73,7 @@
   };
 
   var onErrorEscPress = function (evt) {
-    if (evt.keyCode === 27) {
+    if (evt.keyCode === parseInt(window.common.KeyCodes.ESC_KEYCODE, 10)) {
       errorPopup.remove();
       document.removeEventListener('keydown', onErrorEscPress);
     }
