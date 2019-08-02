@@ -110,9 +110,11 @@
 
   var paintPin = function (objectsForPaint) {
     for (var i = 0; i < objectsForPaint.length; i++) {
-      var newPinElement = pinButton.cloneNode(true);
-      addPinToMap(newPinElement, objectsForPaint[i]);
-      changePinData(newPinElement, objectsForPaint[i]);
+      if (objectsForPaint[i].hasOwnProperty('offer')) { //  Check for offer
+        var newPinElement = pinButton.cloneNode(true);
+        addPinToMap(newPinElement, objectsForPaint[i]);
+        changePinData(newPinElement, objectsForPaint[i]);
+      }
     }
   };
 
