@@ -1,14 +1,13 @@
 'use strict';
 (function () {
-  //  LISTENERS FOR MAP-FILTER
-  /*  variables */
+  //  Variables
   var mapFilters = document.querySelector('.map__filters');
   var filterHouseType = mapFilters.querySelector('#housing-type');
   var filterHousePrice = mapFilters.querySelector('#housing-price');
   var filterHouseRooms = mapFilters.querySelector('#housing-rooms');
   var filterHouseGuests = mapFilters.querySelector('#housing-guests');
-  var filterHouseFeatures = mapFilters.querySelector('.map__features');
 
+  var filterHouseFeatures = mapFilters.querySelector('.map__features');
   var wifi = mapFilters.querySelector('#filter-wifi');
   var dishwasher = mapFilters.querySelector('#filter-dishwasher');
   var parking = mapFilters.querySelector('#filter-parking');
@@ -21,15 +20,13 @@
 
   // FEATURES FILTER
   var filterCheckbox = Array.from(filterHouseFeatures.querySelectorAll('.map__checkbox'));
+  var mapFiltersListener = document.querySelector('.map__filters');
+
   var setFilterActiveState = function () {
-    filterHouseType.addEventListener('change', getFilterParams);
-    filterHousePrice.addEventListener('change', getFilterParams);
-    filterHouseRooms.addEventListener('change', getFilterParams);
-    filterHouseGuests.addEventListener('change', getFilterParams);
-    filterCheckbox.forEach(function (it) {
-      it.addEventListener('click', getFilterParams);
+    mapFiltersListener.addEventListener('change', function () {
+      window.debounce(getFilterParams);
     });
-    getFilterParams(); /* First call after activate filters for paint some pins  */
+    getFilterParams();/*  For paint pins with default filter values */
   };
 
   var getFilterParams = function () {
@@ -46,6 +43,7 @@
     });
     getFilteredObjects(window.common.objectsForRent);
   };
+
   //  OBJECT = objectsForRent item (1 house);
   //  param = type, rooms or guests
   //  targetValue = 'bungalo'
@@ -78,11 +76,7 @@
   var filterPrice = function (it) {
     var minPrice = HousePriceMap[filterParams.price][0];
     var maxPrice = HousePriceMap[filterParams.price][1];
-    if (((it.offer.price >= minPrice) && (it.offer.price <= maxPrice)) || filterParams.price === 'any') {
-      return true;
-    } else {
-      return false;
-    }
+    return (((it.offer.price >= minPrice) && (it.offer.price <= maxPrice)) || filterParams.price === 'any');
   };
 
   var resultFilter = function (it) {

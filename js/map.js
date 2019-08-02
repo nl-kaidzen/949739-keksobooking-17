@@ -1,9 +1,7 @@
 'use strict';
 (function () {
   var mapForPin = document.querySelector('.map');
-
-  // SET START STATEMENT
-
+  var adForm = document.querySelector('.ad-form');
   var fieldsetsArray = document.querySelectorAll('fieldset');
   var mapFiltersArray = document.querySelectorAll('select[class=map__filter]');
 
@@ -14,12 +12,21 @@
     }
   };
 
-  // SET START (DISABLED) STATEMENT
-  changeNoticeState(fieldsetsArray, true);
-  changeNoticeState(mapFiltersArray, true);
+  /*  Set disabled state  */
+  var setDisabledState = function () {
+    if (!mapForPin.classList.contains('map--faded')) {
+      mapForPin.classList.add('map--faded');
+    }
+    if (!adForm.classList.contains('ad-form--disabled')) {
+      adForm.classList.add('ad-form--disabled');
+    }
+    changeNoticeState(fieldsetsArray, true);
+    changeNoticeState(mapFiltersArray, true);
+
+  };
+  setDisabledState();
 
   //  PIN PAINTING LOGIC
-
   /*  Get objectForRent from server */
   var onError = function () {
     var errorTemplate = document.querySelector('#error');
@@ -32,13 +39,11 @@
     window.common.objectsForRent = data;
   };
 
-  window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
+  window.load.get('https://js.dump.academy/keksobooking/data', onSuccess, onError);
 
   /*  Clone Pin-Element*/
   var containerForPin = mapForPin.querySelector('.map__pins');
 
-  /*  Search for ad-form to changeState */
-  var adForm = document.querySelector('.ad-form');
 
   /*  Add Hendler for MainPin */
   var setActiveState = function () {
@@ -52,6 +57,7 @@
   window.map = {
     mapForPin: mapForPin,
     setActiveState: setActiveState,
+    setDisabledState: setDisabledState,
     containerForPin: containerForPin
   };
 
